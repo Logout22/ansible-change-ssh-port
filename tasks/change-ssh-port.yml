@@ -61,3 +61,34 @@
 # Sanity check, make sure Ansible is able to connect to the host
 - name: confirm host connection works
   ping:
+
+- name: setup alternative SSH port
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^#?Port"
+    line: "Port {{ configured_port }}"
+  notify: "Restart sshd"
+
+- name: allow alternative SSH port
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "5365"
+    jump: ACCEPT
+  notify:
+    - persist iptables
+
+- name: ensure SSH is reloaded if need be
+  meta: flush_handlers
+
+# We're done, make sure ansible_port is set properly so that any tasks
+# after this use the right ansible_port.
+- name: ensure we use the configured SSH port
+  set_fact:
+    ansible_port: "{{ configured_port }}"
+
+# Gather facts should be set to false when running this role since it will
+# fail if the Ansible SSH port is not set correctly.
+# We run setup to gather facts here once the SSH port is set up.
+- name: run deferred setup to gather facts
+  setup:
