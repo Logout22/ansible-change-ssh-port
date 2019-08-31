@@ -1,7 +1,9 @@
 Change SSH port
-=========
+===============
 
-Ansible role to change the host's SSH port
+Ansible role to change the host's SSH port, which is useful against brute force attacks.
+
+Inspired by https://dmsimard.com/2016/03/15/changing-the-ssh-port-with-ansible/
 
 Requirements
 ------------
