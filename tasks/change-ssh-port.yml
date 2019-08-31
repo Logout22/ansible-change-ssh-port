@@ -67,7 +67,7 @@
     dest: "/etc/ssh/sshd_config"
     regexp: "^#?Port"
     line: "Port {{ configured_port }}"
-  notify: "Restart sshd"
+  notify: "restart sshd"
 
 - name: allow alternative SSH port
   iptables:
