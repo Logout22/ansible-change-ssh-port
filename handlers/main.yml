@@ -1,11 +1,13 @@
 ---
-- name: restart sshd
-  block:
-    - shell: /usr/sbin/sshd -t
-    - systemd:
-        name: sshd
-        enabled: yes
-        state: restarted
+- name: check sshd config
+  shell: /usr/sbin/sshd -t
+  listen: restart sshd
+- name: restart sshd service
+  systemd:
+    name: sshd
+    enabled: yes
+    state: restarted
+  listen: restart sshd
 # from https://github.com/chmduquesne/ansible-iptables-persistent
 - name: save iptables v4 rules
   shell: iptables-save > /etc/iptables/rules.v4
