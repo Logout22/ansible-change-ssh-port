@@ -1,2 +1,10 @@
 ---
-# tasks file for ansible-change-ssh-port
+- import_tasks: check_vars.yml
+  tags:
+    - change-ssh-port
+    - change-ssh-port:check
+    - check
+
+- import_tasks: change-ssh-port.yml
+  tags:
+    - change-ssh-port

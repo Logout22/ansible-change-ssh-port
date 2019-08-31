@@ -1,0 +1,7 @@
+---
+- name: Checking that required variables are set
+  fail: msg="{{ item }} is not defined"
+  when: item not in vars
+  loop:
+    - ansible_port
+    - inventory_hostname
