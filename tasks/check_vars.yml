@@ -3,5 +3,6 @@
   fail: msg="{{ item }} is not defined"
   when: item not in vars
   loop:
+    - ansible_host
     - ansible_port
     - inventory_hostname
