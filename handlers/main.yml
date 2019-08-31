@@ -1,2 +1,8 @@
 ---
-# handlers file for ansible-change-ssh-port
+- name: restart sshd
+  block:
+    - shell: /usr/sbin/sshd -t
+    - systemd:
+        name: sshd
+        enabled: yes
+        state: restarted
